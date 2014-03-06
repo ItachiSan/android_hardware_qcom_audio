@@ -9,6 +9,7 @@ include $(CLEAR_VARS)
 LOCAL_SRC_FILES := \
     AudioHardware.cpp \
     audio_hw_hal.cpp \
+    HardwarePinSwitching.c
 
 ifeq ($(BOARD_HAVE_BLUETOOTH),true)
   LOCAL_CFLAGS += -DWITH_A2DP
@@ -39,7 +40,7 @@ LOCAL_STATIC_LIBRARIES := \
     libmedia_helper \
     libaudiohw_legacy
 
-LOCAL_MODULE := audio.primary.msm7627a
+LOCAL_MODULE := audio.primary.msm7x27a
 LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
 LOCAL_MODULE_TAGS := optional
 
@@ -56,8 +57,6 @@ LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 
 include $(BUILD_SHARED_LIBRARY)
-
-ifeq ("x","y") # use default audio policy manager
 
 # The audio policy is implemented on top of legacy policy code
 include $(CLEAR_VARS)
@@ -76,7 +75,7 @@ LOCAL_STATIC_LIBRARIES := \
     libmedia_helper \
     libaudiopolicy_legacy
 
-LOCAL_MODULE := audio_policy.msm7627a
+LOCAL_MODULE := audio_policy.msm7x27a
 LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
 LOCAL_MODULE_TAGS := optional
 
@@ -90,7 +89,6 @@ LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 
 include $(BUILD_SHARED_LIBRARY)
-endif
 
 # Load audio_policy.conf to system/etc/
 include $(CLEAR_VARS)

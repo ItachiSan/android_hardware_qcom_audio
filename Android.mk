@@ -1,4 +1,5 @@
 ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
+ifneq ($(TARGET_PROVIDES_LIBAUDIO),true)
 
 AUDIO_HW_ROOT := $(call my-dir)
 
@@ -13,4 +14,5 @@ ifeq ($(TARGET_BOARD_PLATFORM),msm8660)
     include $(AUDIO_HW_ROOT)/msm8660/Android.mk
 endif
 
-endif
+endif #TARGET_PROVIDES_LIBAUDIO
+endif #BOARD_USES_QCOM_HARDWARE
