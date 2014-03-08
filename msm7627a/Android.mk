@@ -1,5 +1,7 @@
 # Copyright 2011 The Android Open Source Project
 
+ifneq ($(TARGET_PROVIDES_LIBAUDIO),true)
+
 #AUDIO_POLICY_TEST := true
 #ENABLE_AUDIO_DUMP := true
 
@@ -21,10 +23,6 @@ endif
 
 ifeq ($(call is-android-codename-in-list,ICECREAM_SANDWICH),true)
   LOCAL_CFLAGS += -DREG_KERNEL_UPDATE
-endif
-
-ifeq ($(strip $(BOARD_USES_SRS_TRUEMEDIA)),true)
-LOCAL_CFLAGS += -DSRS_PROCESSING
 endif
 
 LOCAL_SHARED_LIBRARIES := \
@@ -58,6 +56,7 @@ LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 
 include $(BUILD_SHARED_LIBRARY)
 
+
 # The audio policy is implemented on top of legacy policy code
 include $(CLEAR_VARS)
 
@@ -71,7 +70,6 @@ LOCAL_SHARED_LIBRARIES := \
     libmedia
 
 LOCAL_STATIC_LIBRARIES := \
-    libaudiohw_legacy \
     libmedia_helper \
     libaudiopolicy_legacy
 
@@ -90,11 +88,4 @@ LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 
 include $(BUILD_SHARED_LIBRARY)
 
-# Load audio_policy.conf to system/etc/
-include $(CLEAR_VARS)
-LOCAL_MODULE       := audio_policy.conf
-LOCAL_MODULE_TAGS  := optional
-LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_PATH  := $(TARGET_OUT_ETC)
-LOCAL_SRC_FILES    := audio_policy.conf
-include $(BUILD_PREBUILT)
+endif # !TARGET_PROVIDE_LIBAUDIO
